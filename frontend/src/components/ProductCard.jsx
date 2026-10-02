@@ -1,15 +1,11 @@
-import { useState } from 'react';
-
-export default function ProductCard({ product, onOrderClick }) {
-  const [expanded, setExpanded] = useState(false);
-
+export default function ProductCard({ product, onOrderClick, onSelect }) {
   return (
-    <article className={`product-card ${expanded ? 'is-expanded' : ''}`}>
+    <article className="product-card">
       <button
         type="button"
         className="product-image-button"
-        onClick={() => setExpanded((current) => !current)}
-        aria-label={expanded ? `Свернуть описание товара ${product.name}` : `Показать описание товара ${product.name}`}
+        onClick={() => onSelect(product.id)}
+        aria-label={`Открыть товар ${product.name}`}
       >
         <div className="product-image-wrap">
           <img
@@ -26,15 +22,11 @@ export default function ProductCard({ product, onOrderClick }) {
         </div>
 
         <h2>{product.name}</h2>
+        <p className="product-summary">{product.description}</p>
 
-        {expanded && (
-          <>
-            <p className="product-description">{product.description}</p>
-            <button type="button" className="order-btn" onClick={() => onOrderClick(product)}>
-              Заказать
-            </button>
-          </>
-        )}
+        <button type="button" className="order-btn" onClick={() => onOrderClick(product)}>
+          Заказать
+        </button>
       </div>
     </article>
   );

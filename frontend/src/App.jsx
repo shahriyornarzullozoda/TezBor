@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import StoreHeader from './components/StoreHeader';
 import ProductCard from './components/ProductCard';
+import ProductDetail from './components/ProductDetail';
 
 const fallbackProducts = [
   {
@@ -38,6 +39,7 @@ export default function App() {
   const [products, setProducts] = useState(fallbackProducts);
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('Все');
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -80,6 +82,18 @@ export default function App() {
     window.open(targetUrl, '_blank', 'noopener,noreferrer');
   }
 
+  const selectedProduct = products.find((product) => product.id === selectedProductId) || null;
+
+  if (selectedProduct) {
+    return (
+      <ProductDetail
+        product={selectedProduct}
+        onBack={() => setSelectedProductId(null)}
+        onOrderClick={handleOrderClick}
+      />
+    );
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -102,7 +116,12 @@ export default function App() {
           <div className="empty-state">Загрузка товаров...</div>
         ) : filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} onOrderClick={handleOrderClick} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              onOrderClick={handleOrderClick}
+              onSelect={(id) => setSelectedProductId(id)}
+            />
           ))
         ) : (
           <div className="empty-state">Товар не найден</div>
