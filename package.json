@@ -1,0 +1,1 @@
+{"name":"tezbor","private":true,"version":"1.0.0","workspaces":["frontend","admin","backend","bot"],"scripts":{"dev:frontend":"npm --workspace frontend exec vite -- --host 0.0.0.0 --port 5173","dev:admin":"npm --workspace admin exec vite -- --host 0.0.0.0 --port 5174","dev:backend":"npm --workspace backend run dev","dev:bot":"npm --workspace bot run dev"}}
